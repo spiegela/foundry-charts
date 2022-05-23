@@ -148,10 +148,10 @@ spec:
           - name: FOUNDRY_ROUTE_PREFIX
             value: {{ .Values.foundryvtt.routePrefix }}
           {{- end }}
-          {{- if eq .Values.foundryvtt.s3.awsConfig "true" -}}
+          {{- if eq .Values.foundryvtt.s3AwsConfig "true" -}}
           - name: FOUNDRY_AWS_CONFIG
             value: "true"
-          {{- else if eq .Values.foundryvtt.s3.awsConfig "file" -}}
+          {{- else if eq .Values.foundryvtt.s3AwsConfig "file" -}}
           - name: FOUNDRY_AWS_CONFIG
             value: "/etc/secretaws/aws-credentials.json"
           {{- end }}
@@ -196,7 +196,7 @@ spec:
           readOnly: {{ $mount.readOnly }}
         {{- end }}
       {{- end }}
-      {{- if eq .Values.foundryvtt.s3.awsConfig "file" }}
+      {{- if eq .Values.foundryvtt.s3AwsConfig "file" }}
         - name: secret-aws
           mountPath: "/etc/secretaws/"
           readOnly: true
@@ -214,7 +214,7 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       volumes:
-    {{- if eq .Values.foundryvtt.s3.awsConfig "file" }}
+    {{- if eq .Values.foundryvtt.s3AwsConfig "file" }}
       - name: secret-aws
         secret:
           secretName: {{ include "foundry-vtt.fullname" . }}-aws
